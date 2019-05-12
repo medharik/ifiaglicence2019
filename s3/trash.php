@@ -35,11 +35,12 @@ $produits=all('yes');
       <td><?= $p['prix']?></td>
       <td><?= $p['qte_stock']?></td>
       <td>
-      <a href="delete.php?id=<?php echo $p['id']?>"
+      <a href="restaurer.php?id=<?php echo $p['id']?>"
         onclick="return confirm('supprimer?')"
-       class="btn btn-sm btn-danger">Supprimer</a>
-      <a href="edit.php?id=<?php echo $p['id']?>" class="btn btn-sm btn-warning">Modifier</a>
-      <a href="show.php?id=<?php echo $p['id']?>" class="btn btn-sm btn-info">Consulter</a>
+       class="btn btn-sm btn-danger">Restaurer</a>
+      <a href="delete.php?comment=hard&id=<?php echo $p['id']?>"
+        onclick="return confirm('supprimer?')"
+       class="btn btn-sm btn-danger">Supprimer def</a>
       </td>
     </tr>
 

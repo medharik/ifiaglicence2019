@@ -1,14 +1,25 @@
 <?php
 require_once ("constantes.php"); 
 function connecter_db(){
- $cnx=new PDO("mysql:host=".HOST.";dbname=".DBNAME,USER,PWD);   
-return $cnx;
+ try{
+ //$options=array(PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION);   
+ $cnx=new PDO("mysql:host=".HOST.";dbname=".DBNAME,USER,PWD);
+ $cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);  
+ return $cnx; 
+ }catch(PDOException $e){
+die( "erreur de connexion ".$e->getMessage());
+ }finally{
+
+   // echo "tjrs";
+ }
+   
+
 }
 
 //ajout
 function store($libelle,$prix,$qte_stock){
 $cnx=connecter_db();
-$rp=$cnx->prepare("insert into produit(libelle,prix,qte_stock) 
+$rp=$cnx->prepare("insert into produits (libelle,prix,qte_stock) 
 values(?,?,?)
 ");
 $rp->execute(array($libelle,$prix,$qte_stock));
@@ -16,6 +27,7 @@ $rp->execute(array($libelle,$prix,$qte_stock));
 }
 //modifier
 function update($libelle,$prix,$qte_stock,$id){
+
     $cnx=connecter_db();
     $rp=$cnx->prepare("
     update produit set libelle=?, prix=? , qte_stock=? where id=?
@@ -24,19 +36,37 @@ function update($libelle,$prix,$qte_stock,$id){
     
 
 }
+function delete($id,$comment="soft"){
 //supprimer
-function delete($id){
+
 
     $cnx=connecter_db();
-
-    $rp=$cnx->prepare(" delete from produit where id=?
-    ");
+if($comment=="soft"){
+    $rp=$cnx->prepare(" update produit set trash='yes' where id=?   ");
+}
+    else {
+        $rp=$cnx->prepare("delete from produit where id=? ");
+        
+    }
     $rp->execute(array($id));
  
     
 }
+function restaurer($id){
+//supprimer
+
+try{
+    $cnx=connecter_db();
+    $rp=$cnx->prepare(" update produit set trash='no' where id=?   ");
+    $rp->execute(array($id));
+}catch(PDOException $e){
+die("erreur ds restaurer ".$e->getMessage());
+}
+    
+}
 //toutes les ressources
 function all($trash){
+    try{
     $cnx=connecter_db();
     $rp=$cnx->prepare("select * from produit where trash=? order by id desc
     ");
@@ -44,7 +74,9 @@ function all($trash){
 
   $resultat=  $rp->fetchAll();// tableau de produit (produit ausi est un tab associtatif et indexé)
     return $resultat;
-
+    }catch(PDOException $e){
+echo "erreur dans all".$e->getMessage();
+    }
 }
 //recuprer une ressource 
 function find($id){
