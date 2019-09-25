@@ -2,15 +2,12 @@
 require_once ("constantes.php"); 
 function connecter_db(){
  try{
- //$options=array(PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION);   
+
  $cnx=new PDO("mysql:host=".HOST.";dbname=".DBNAME,USER,PWD);
- $cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);  
+ $cnx->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);  
  return $cnx; 
  }catch(PDOException $e){
 die( "erreur de connexion ".$e->getMessage());
- }finally{
-
-   // echo "tjrs";
  }
    
 
