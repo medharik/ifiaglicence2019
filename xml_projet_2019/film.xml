@@ -1,0 +1,19 @@
+<!-- prologue  -->
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- dtd externe system -->
+
+<!DOCTYPE cdtheque SYSTEM "./film.dtd">
+
+<cdtheque date="01-01-2019" auteur="omar">
+    <cd>
+        <titre>les irreprochables </titre>
+        <artiste>omar sy </artiste>
+        <artiste>omar my </artiste>
+        <style nom="DRAMA" />
+    </cd>
+
+    <cd>
+        <titre>les miserables </titre>
+        <artiste>robert de niro</artiste>
+    </cd>
+</cdtheque>

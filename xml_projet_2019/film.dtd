@@ -1,0 +1,9 @@
+<!ELEMENT cdtheque (cd*) >
+<!ATTLIST cdtheque date CDATA #REQUIRED>
+<!ATTLIST cdtheque auteur CDATA #REQUIRED>
+<!ELEMENT cd	(titre,artiste+,style?)>
+<!ELEMENT titre	(#PCDATA)>
+<!ELEMENT style	(#PCDATA) >
+<!ELEMENT artiste	(#PCDATA)>
+<!ATTLIST style nom CDATA #REQUIRED>
+
